@@ -1,5 +1,7 @@
 package it.itcast.web.DownloadDemo;
 
+import it.itcast.web.Downloadutile.DownLoadUtils;
+
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletInputStream;
@@ -17,6 +19,7 @@ public class DownloadServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //1.获取请求参数
         String filename = request.getParameter("filename");
+
         //2.把资源通过字节输入流加载进内存
         //2.1通过ServletContext对象获取资源路径
         ServletContext context = this.getServletContext();
@@ -28,10 +31,19 @@ public class DownloadServlet extends HttpServlet {
 
         //3.设置响应头参数
         String mimeType = context.getMimeType(filename);
+
         //设置响应类型
         response.setHeader("content-type",mimeType);
-        //设置浏览器打开方式 content-disposition:attachment;filename=xxx
+
+        //设置中文文件名乱码问题
+        //1.获取user-agent请求头
+        String agent = request.getHeader("user-agent");
+        //2.使用工具类方法编辑文件名即可
+         filename = DownLoadUtils.getFileName(agent, filename);
+
+         //设置浏览器打开方式 content-disposition:attachment;filename=xxx
         response.setHeader("content-disposition","attachment;filename="+filename);
+
         //4.将输入流数据写到输出流中
         ServletOutputStream outputStream = response.getOutputStream();
 

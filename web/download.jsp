@@ -11,7 +11,7 @@
     <title>Download</title>
 </head>
 <body>
-<a href="/Csqin/DownloadServlet?filename=1.jpg">图片1</a>
+<a href="/Csqin/DownloadServlet?filename=阿狸.jpg">图片1</a>
 <a href="/Csqin/DownloadServlet?filename=2.jpg">图片2</a>
 </body>
 </html>
